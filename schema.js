@@ -30,6 +30,29 @@ const StarshipType = new GraphQLObjectType({
   })
 })
 
+const PlanetType = new GraphQLObjectType({
+  name: 'Planet',
+  description: 'A Planet resource is a large mass, planet or planetoid in the Star Wars Universe, at the time of 0 ABY.',
+  fields: () => ({
+    climate: {type: GraphQLString},
+    diameter: {type: GraphQLString},
+    gravity: {type: GraphQLString},
+    name: {type: GraphQLString},
+    orbital_period: {type: GraphQLString},
+    population: {type: GraphQLString},
+    rotation_period: {type: GraphQLString},
+    surface_water: {type: GraphQLString},
+    terrain: {type: GraphQLString},
+    residents: {
+      type: new GraphQLList(PersonType),
+      resolve: (planet) => planet.residents.map((person) => (
+        fetch(person).then(res => res.json())
+      ))
+    },
+    // films
+  })
+})
+
 const PersonType = new GraphQLObjectType({
   name: 'Person',
   description: 'A People resource is an individual person or character within the Star Wars universe.',
@@ -46,8 +69,13 @@ const PersonType = new GraphQLObjectType({
       resolve: (person) => person.starships.map((ship) => (
         fetch(ship).then(res => res.json())
       ))
+    },
+    homeworld: {
+      type: PlanetType,
+      resolve: (person) => (
+        fetch(person.homeworld).then(res => res.json())
+      )
     }
-    // homeworld
     // films
     // species
     // vehicles
@@ -74,6 +102,24 @@ const QueryType = new GraphQLObjectType({
       resolve: (root, args) => (
         fetch(`${BASE_URL}/people/${args.id}/`)
           .then(res => res.json())
+      )
+    },
+    planet: {
+      type: PlanetType,
+      args: {
+        id: {type: GraphQLString}
+      },
+      resolve: (root, args) => (
+        fetch(`${BASE_URL}/planets/${args.id}/`)
+          .then(res => res.json())
+      )
+    },
+    planets: {
+      type: new GraphQLList(PlanetType),
+      resolve: (root, args) => (
+        fetch(`${BASE_URL}/planets/`)
+          .then(res => res.json())
+          .then(json => json.results)
       )
     },
     starship: {
