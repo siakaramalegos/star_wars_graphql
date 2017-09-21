@@ -99,6 +99,10 @@ const FilmType = new GraphQLObjectType({
   })
 })
 
+const searchHelper = (searchString) => (
+  searchString ? `?search=${searchString}` : ''
+)
+
 const QueryType = new GraphQLObjectType({
   name: 'Query',
   description: 'my optional description',
@@ -115,16 +119,22 @@ const QueryType = new GraphQLObjectType({
     },
     films: {
       type: new GraphQLList(FilmType),
-      resolve: () => (
-        fetch(`${BASE_URL}/films/`)
+      args: {
+        search: {type: GraphQLString}
+      },
+      resolve: (root, args) => (
+        fetch(`${BASE_URL}/films/${searchHelper(args.search)}`)
           .then(res => res.json())
           .then(json => json.results)
       )
     },
     people: {
       type: new GraphQLList(PersonType),
-      resolve: () => (
-        fetch(`${BASE_URL}/people/`)
+      args: {
+        search: {type: GraphQLString}
+      },
+      resolve: (root, args) => (
+        fetch(`${BASE_URL}/people/${searchHelper(args.search)}`)
           .then(res => res.json())
           .then(json => json.results)
       )
@@ -151,8 +161,11 @@ const QueryType = new GraphQLObjectType({
     },
     planets: {
       type: new GraphQLList(PlanetType),
+      args: {
+        search: {type: GraphQLString}
+      },
       resolve: (root, args) => (
-        fetch(`${BASE_URL}/planets/`)
+        fetch(`${BASE_URL}/planets/${searchHelper(args.search)}`)
           .then(res => res.json())
           .then(json => json.results)
       )
@@ -169,8 +182,11 @@ const QueryType = new GraphQLObjectType({
     },
     starships: {
       type: new GraphQLList(StarshipType),
-      resolve: () => (
-        fetch(`${BASE_URL}/starships/`)
+      args: {
+        search: {type: GraphQLString}
+      },
+      resolve: (root, args) => (
+        fetch(`${BASE_URL}/starships/${searchHelper(args.search)}`)
           .then(res => res.json())
           .then(json => json.results)
       )
