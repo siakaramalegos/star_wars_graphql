@@ -35,7 +35,7 @@ const StarshipType = new GraphQLObjectType({
     cargo_capacity: {type: GraphQLString},
     consumables: {type: GraphQLString},
     films: connectedItems('films', FilmType),
-    // pilots
+    pilots: connectedItems('pilots', PersonType),
   })
 })
 
