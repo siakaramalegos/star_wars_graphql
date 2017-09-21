@@ -2,11 +2,20 @@ const {
   GraphQLSchema,
   GraphQLObjectType,
   GraphQLString,
-  GraphQLList
+  GraphQLList,
+  GraphQLInt
 } = require('graphql')
 const fetch = require('node-fetch')
 
 const BASE_URL = 'https://swapi.co/api'
+
+const connectedItems = (arrayName, type) => {
+  return {
+  type: new GraphQLList(type),
+  resolve: (object) => object[arrayName].map((singleItem) => (
+    fetch(singleItem).then(res => res.json())
+  ))
+}}
 
 const StarshipType = new GraphQLObjectType({
   name: 'Starship',
@@ -25,7 +34,7 @@ const StarshipType = new GraphQLObjectType({
     MGLT: {type: GraphQLString},
     cargo_capacity: {type: GraphQLString},
     consumables: {type: GraphQLString},
-    // films
+    films: connectedItems('films', FilmType),
     // pilots
   })
 })
@@ -82,10 +91,56 @@ const PersonType = new GraphQLObjectType({
   })
 })
 
+const FilmType = new GraphQLObjectType({
+  name: 'Film',
+  description: 'A Film resource is a single film.',
+  fields: () => ({
+    characters: {
+      type: new GraphQLList(PersonType),
+      resolve: (film) => film.characters.map((person) => (
+        fetch(person).then(res => res.json())
+      ))
+    },
+    director: {type: GraphQLString},
+    episode_id: {type: GraphQLInt},
+    opening_crawl: {type: GraphQLString},
+    planets: {
+      type: new GraphQLList(PlanetType),
+      resolve: (film) => film.planets.map((planet) => (
+        fetch(planet).then(res => res.json())
+      ))
+    },
+    producer: {type: GraphQLString},
+    release_date: {type: GraphQLString},
+    // species
+    // starships
+    title: {type: GraphQLString},
+    // vehicles
+  })
+})
+
 const QueryType = new GraphQLObjectType({
   name: 'Query',
   description: 'my optional description',
   fields: () => ({
+    film: {
+      type: FilmType,
+      args: {
+        id: {type: GraphQLString}
+      },
+      resolve: (root, args) => (
+        fetch(`${BASE_URL}/films/${args.id}/`)
+          .then(res => res.json())
+      )
+    },
+    films: {
+      type: new GraphQLList(FilmType),
+      resolve: () => (
+        fetch(`${BASE_URL}/films/`)
+          .then(res => res.json())
+          .then(json => json.results)
+      )
+    },
     people: {
       type: new GraphQLList(PersonType),
       resolve: () => (
