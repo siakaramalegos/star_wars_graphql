@@ -52,13 +52,8 @@ const PlanetType = new GraphQLObjectType({
     rotation_period: {type: GraphQLString},
     surface_water: {type: GraphQLString},
     terrain: {type: GraphQLString},
-    residents: {
-      type: new GraphQLList(PersonType),
-      resolve: (planet) => planet.residents.map((person) => (
-        fetch(person).then(res => res.json())
-      ))
-    },
-    // films
+    residents: connectedItems('residents', PersonType),
+    films: connectedItems('films', FilmType),
   })
 })
 
@@ -73,19 +68,14 @@ const PersonType = new GraphQLObjectType({
     hair_color: {type: GraphQLString},
     height: {type: GraphQLString},
     mass: {type: GraphQLString},
-    starships: {
-      type: new GraphQLList(StarshipType),
-      resolve: (person) => person.starships.map((ship) => (
-        fetch(ship).then(res => res.json())
-      ))
-    },
+    starships: connectedItems('starships', StarshipType),
     homeworld: {
       type: PlanetType,
       resolve: (person) => (
         fetch(person.homeworld).then(res => res.json())
       )
-    }
-    // films
+    },
+    films: connectedItems('films', FilmType),
     // species
     // vehicles
   })
@@ -95,25 +85,15 @@ const FilmType = new GraphQLObjectType({
   name: 'Film',
   description: 'A Film resource is a single film.',
   fields: () => ({
-    characters: {
-      type: new GraphQLList(PersonType),
-      resolve: (film) => film.characters.map((person) => (
-        fetch(person).then(res => res.json())
-      ))
-    },
+    characters: connectedItems('characters', PersonType),
     director: {type: GraphQLString},
     episode_id: {type: GraphQLInt},
     opening_crawl: {type: GraphQLString},
-    planets: {
-      type: new GraphQLList(PlanetType),
-      resolve: (film) => film.planets.map((planet) => (
-        fetch(planet).then(res => res.json())
-      ))
-    },
+    planets: connectedItems('planets', PlanetType),
     producer: {type: GraphQLString},
     release_date: {type: GraphQLString},
     // species
-    // starships
+    starships: connectedItems('starships', StarshipType),
     title: {type: GraphQLString},
     // vehicles
   })
