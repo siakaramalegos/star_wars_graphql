@@ -12,7 +12,7 @@ To play with a more built-out version that includes more of the Star Wars API en
 
 ## Slides
 
-[Here](https://speakerdeck.com/siakaramalegos/no-rest-for-the-weary-dot-dot-dot-introducing-graphql) are the slides from my talk at Connect Tech 2017 and Node Fest Japan 2017.
+[Here](https://speakerdeck.com/siakaramalegos/no-rest-for-the-weary-dot-dot-dot-introducing-graphql) are the slides from my talk at Connect Tech 2017, and [here]() are the ones from Node Fest Japan 2017.
 
 ## Links
 
@@ -46,6 +46,7 @@ To play with a more built-out version that includes more of the Star Wars API en
 - [Evolution of API Design](https://www.youtube.com/watch?v=DeKpgHK-bqw) (Chain React 2017) by Eric Baer
 - [Exploring GraphQL](https://www.youtube.com/watch?v=WQLzZf34FJ8) (React Europe 2015) by Lee Byron 
 - [Zero to GraphQL in 30 Minutes](https://www.youtube.com/watch?v=UBGzsb2UkeY) by Steven Luscher (Python, Ruby, and JavaScript!)
+- [GraphQL vs. REST](https://dev-blog.apollodata.com/graphql-vs-rest-5d425123e34b) by Sashko Stubailo
 
 **Docs, Tutorials, and Other Resources**
 
