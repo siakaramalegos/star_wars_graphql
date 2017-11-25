@@ -12,7 +12,7 @@ To play with a more built-out version that includes more of the Star Wars API en
 
 ## Slides
 
-[Here](https://speakerdeck.com/siakaramalegos/no-rest-for-the-weary-dot-dot-dot-introducing-graphql) are the slides from my talk at Connect Tech 2017, and [here]() are the ones from Node Fest Japan 2017.
+[Here](https://speakerdeck.com/siakaramalegos/no-rest-for-the-weary-dot-dot-dot-introducing-graphql) are the slides from my talk at Connect Tech 2017, and [here](https://speakerdeck.com/siakaramalegos/no-rest-for-the-weary-dot-dot-dot-introducing-graphql-nodefest-japan) are the ones from Node Fest Japan 2017.
 
 ## Links
 
