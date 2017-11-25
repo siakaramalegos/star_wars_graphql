@@ -14,6 +14,8 @@ To play with a more built-out version that includes more of the Star Wars API en
 
 [Here](https://speakerdeck.com/siakaramalegos/no-rest-for-the-weary-dot-dot-dot-introducing-graphql) are the slides from my talk at Connect Tech 2017 and Node Fest Japan 2017.
 
+## Links
+
 ### Ecosystem
 
 **GraphQL Servers**
